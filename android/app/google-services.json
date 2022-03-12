@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "405639606211",
+    "project_id": "min-330411",
+    "storage_bucket": "min-330411.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405639606211:android:7f8307fe19e67e1aff9776",
+        "android_client_info": {
+          "package_name": "com.khybercoded.hundredminute_customer.user_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405639606211-3k1a3apjr1rfcf60dfnfdkpfvrnj3fi7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeYhjlINcssmhS9UpcGwKbwGYQ2I79FnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405639606211-3k1a3apjr1rfcf60dfnfdkpfvrnj3fi7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
