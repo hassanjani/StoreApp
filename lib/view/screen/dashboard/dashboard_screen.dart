@@ -1,15 +1,18 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:user_app/helper/network_info.dart';
-import 'package:user_app/view/screen/chat/inbox_screen.dart';
 import 'package:user_app/localization/language_constrants.dart';
+import 'package:user_app/notification/PushNotifications.dart';
 import 'package:user_app/provider/localization_provider.dart';
+import 'package:user_app/provider/notification_provider.dart';
 import 'package:user_app/utill/images.dart';
+import 'package:user_app/view/screen/chat/inbox_screen.dart';
 import 'package:user_app/view/screen/dashboard/widget/fancy_bottom_nav_bar.dart';
 import 'package:user_app/view/screen/home/home_screen.dart';
 import 'package:user_app/view/screen/more/more_screen.dart';
 import 'package:user_app/view/screen/notification/notification_screen.dart';
 import 'package:user_app/view/screen/order/order_screen.dart';
-import 'package:provider/provider.dart';
 
 class DashBoardScreen extends StatefulWidget {
   @override
@@ -28,7 +31,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   @override
   void initState() {
     super.initState();
+    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+    PushNotificationService(firebaseMessaging).initialise();
 
+    Provider.of<NotificationProvider>(context, listen: false).getCounts();
     _screens = [
       HomePage(),
       //TODO: seller

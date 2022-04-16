@@ -1,11 +1,16 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:location/location.dart';
+import 'package:user_app/data/datasource/remote/dio/dio_client.dart';
 import 'package:user_app/data/model/body/login_model.dart';
 import 'package:user_app/data/model/body/register_model.dart';
 import 'package:user_app/data/model/response/base/api_response.dart';
 import 'package:user_app/data/model/response/base/error_response.dart';
 import 'package:user_app/data/model/response/response_model.dart';
 import 'package:user_app/data/repository/auth_repo.dart';
+import 'package:user_app/notification/PushNotifications.dart';
+import 'package:user_app/utill/app_constants.dart';
 
 class AuthProvider with ChangeNotifier {
   final AuthRepo authRepo;
@@ -47,6 +52,7 @@ class AuthProvider with ChangeNotifier {
         apiResponse.response.statusCode == 200) {
       Map map = apiResponse.response.data;
       var token = await getToken();
+
       // var token = map["token"];
       authRepo.saveUserToken(token);
       // await authRepo.updateToken();
@@ -69,6 +75,7 @@ class AuthProvider with ChangeNotifier {
 
   Future login(LoginModel loginBody, Function callback) async {
     _isLoading = true;
+    await getLocation();
     notifyListeners();
     ApiResponse apiResponse = await authRepo.login(loginBody);
     _isLoading = false;
@@ -77,6 +84,10 @@ class AuthProvider with ChangeNotifier {
       Map map = apiResponse.response.data;
       String token = map["token"];
       authRepo.saveUserToken(token);
+      FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+      await updateLatlng();
+      PushNotificationService(firebaseMessaging).updateDeviceToken();
+
       // await authRepo.updateToken();
       callback(true, token);
       notifyListeners();
@@ -92,6 +103,40 @@ class AuthProvider with ChangeNotifier {
       }
       callback(false, errorMessage);
       notifyListeners();
+    }
+  }
+
+  Future getLocation() async {
+    Location location = new Location();
+    LocationData _pos = await location.getLocation();
+    lat = _pos.latitude;
+    lng = _pos.longitude;
+    notifyListeners();
+  }
+
+  updateLatlng() async {
+    print("latlng");
+    print(lat);
+    print(lng);
+    if (lat != 0 || lng != 0) {
+      DioClient dioClient;
+      final sl = GetIt.instance;
+      dioClient = sl();
+      var map = {
+        "lt": lat,
+        "lg": lng,
+      };
+      print(map);
+      print("map....................");
+      final response =
+          await dioClient.post(AppConstants.UPDATELATLNG, data: map);
+      print(response.data.toString());
+      if (response != null && response.statusCode == 200) {
+        print(response.data.toString());
+        print("latlng updated");
+      } else {
+        // ApiChecker.checkApi(context, apiResponse);
+      }
     }
   }
 

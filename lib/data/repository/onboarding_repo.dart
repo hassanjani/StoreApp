@@ -15,7 +15,7 @@ class OnBoardingRepo {
       List<OnboardingModel> onBoardingList = [
         OnboardingModel(
             'assets/images/onboarding_image_one.png',
-            'Welcome to 100MINS',
+            'Welcome to Tayyez',
             'Here shopping is easy and fun with 50 thousands products, exclusive deals, offers and promotions.'),
         OnboardingModel(
             'assets/images/onboarding_image_two.png',

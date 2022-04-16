@@ -71,8 +71,10 @@ class HomePage extends StatelessWidget {
                 centerTitle: false,
                 automaticallyImplyLeading: false,
                 backgroundColor: Theme.of(context).accentColor,
-                title: Image.asset(Images.logo_with_name_image,
-                    height: 35, color: ColorResources.getPrimary(context)),
+                title: Image.asset(
+                  Images.new_logo,
+                  height: 35, /*color: ColorResources.getPrimary(context)*/
+                ),
                 actions: [
                   IconButton(
                     onPressed: () {

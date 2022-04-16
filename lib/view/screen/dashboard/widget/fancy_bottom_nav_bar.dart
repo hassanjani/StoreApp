@@ -1,6 +1,12 @@
 import 'package:fancy_bottom_navigation/paint/half_clipper.dart';
 import 'package:fancy_bottom_navigation/paint/half_painter.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/provider/notification_provider.dart';
+import 'package:user_app/utill/color_resources.dart';
+import 'package:user_app/utill/custom_themes.dart';
+import 'package:user_app/utill/dimensions.dart';
+import 'package:user_app/utill/images.dart';
 
 const double CIRCLE_SIZE = 60;
 const double ARC_HEIGHT = 70;
@@ -12,15 +18,15 @@ const double BAR_HEIGHT = 60;
 class FancyBottomNavBar extends StatefulWidget {
   FancyBottomNavBar(
       {@required this.tabs,
-        @required this.onTabChangedListener,
-        this.key,
-        this.isLtr,
-        this.initialSelection = 0,
-        this.circleColor,
-        this.activeIconColor,
-        this.inactiveIconColor,
-        this.textColor,
-        this.barBackgroundColor})
+      @required this.onTabChangedListener,
+      this.key,
+      this.isLtr,
+      this.initialSelection = 0,
+      this.circleColor,
+      this.activeIconColor,
+      this.inactiveIconColor,
+      this.textColor,
+      this.barBackgroundColor})
       : assert(onTabChangedListener != null),
         assert(tabs != null),
         assert(tabs.length > 1 && tabs.length < 6);
@@ -64,30 +70,30 @@ class FancyBottomNavBarState extends State<FancyBottomNavBar>
 
     circleColor = (widget.circleColor == null)
         ? (Theme.of(context).brightness == Brightness.dark)
-        ? Colors.white
-        : Theme.of(context).primaryColor
+            ? Colors.white
+            : Theme.of(context).primaryColor
         : widget.circleColor;
 
     activeIconColor = (widget.activeIconColor == null)
         ? (Theme.of(context).brightness == Brightness.dark)
-        ? Colors.black54
-        : Colors.white
+            ? Colors.black54
+            : Colors.white
         : widget.activeIconColor;
 
     barBackgroundColor = (widget.barBackgroundColor == null)
         ? (Theme.of(context).brightness == Brightness.dark)
-        ? Color(0xFF212121)
-        : Colors.white
+            ? Color(0xFF212121)
+            : Colors.white
         : widget.barBackgroundColor;
     textColor = (widget.textColor == null)
         ? (Theme.of(context).brightness == Brightness.dark)
-        ? Colors.white
-        : Colors.black54
+            ? Colors.white
+            : Colors.black54
         : widget.textColor;
     inactiveIconColor = (widget.inactiveIconColor == null)
         ? (Theme.of(context).brightness == Brightness.dark)
-        ? Colors.white
-        : Theme.of(context).primaryColor
+            ? Colors.orange
+            : Theme.of(context).primaryColor
         : widget.inactiveIconColor;
   }
 
@@ -103,10 +109,13 @@ class FancyBottomNavBarState extends State<FancyBottomNavBar>
     if (mounted) {
       setState(() {
         currentSelected = selected;
-        if(widget.isLtr) {
+        if (widget.isLtr) {
           _circleAlignX = -1 + (2 / (widget.tabs.length - 1) * selected);
-        }else {
-          _circleAlignX = -1 + (2 / (widget.tabs.length - 1) * (widget.tabs.length - selected - 1));
+        } else {
+          _circleAlignX = -1 +
+              (2 /
+                  (widget.tabs.length - 1) *
+                  (widget.tabs.length - selected - 1));
         }
         nextImage = widget.tabs[selected].imagePath;
       });
@@ -130,19 +139,19 @@ class FancyBottomNavBarState extends State<FancyBottomNavBar>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: widget.tabs
                 .map((t) => TabItem(
-                uniqueKey: t.key,
-                selected: t.key == widget.tabs[currentSelected].key,
-                imagePath: t.imagePath,
-                title: t.title,
-                iconColor: inactiveIconColor,
-                textColor: textColor,
-                callbackFunction: (uniqueKey) {
-                  int selected = widget.tabs
-                      .indexWhere((tabData) => tabData.key == uniqueKey);
-                  widget.onTabChangedListener(selected);
-                  _setSelected(uniqueKey);
-                  _initAnimationAndStart(_circleAlignX, 1);
-                }))
+                    uniqueKey: t.key,
+                    selected: t.key == widget.tabs[currentSelected].key,
+                    imagePath: t.imagePath,
+                    title: t.title,
+                    iconColor: Colors.orange, //inactiveIconColor,
+                    textColor: textColor,
+                    callbackFunction: (uniqueKey) {
+                      int selected = widget.tabs
+                          .indexWhere((tabData) => tabData.key == uniqueKey);
+                      widget.onTabChangedListener(selected);
+                      _setSelected(uniqueKey);
+                      _initAnimationAndStart(_circleAlignX, 1);
+                    }))
                 .toList(),
           ),
         ),
@@ -164,9 +173,9 @@ class FancyBottomNavBarState extends State<FancyBottomNavBar>
                       children: <Widget>[
                         SizedBox(
                           height:
-                          CIRCLE_SIZE + CIRCLE_OUTLINE + SHADOW_ALLOWANCE,
+                              CIRCLE_SIZE + CIRCLE_OUTLINE + SHADOW_ALLOWANCE,
                           width:
-                          CIRCLE_SIZE + CIRCLE_OUTLINE + SHADOW_ALLOWANCE,
+                              CIRCLE_SIZE + CIRCLE_OUTLINE + SHADOW_ALLOWANCE,
                           child: ClipRect(
                               clipper: HalfClipper(),
                               child: Container(
@@ -196,12 +205,13 @@ class FancyBottomNavBarState extends State<FancyBottomNavBar>
                           width: CIRCLE_SIZE,
                           child: Container(
                             decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: circleColor),
+                                shape: BoxShape.circle,
+                                color: Colors.orange), //circleColor),
                             child: Padding(
                               padding: const EdgeInsets.all(0.0),
                               child: AnimatedOpacity(
                                 duration:
-                                Duration(milliseconds: ANIM_DURATION ~/ 5),
+                                    Duration(milliseconds: ANIM_DURATION ~/ 5),
                                 opacity: _circleIconAlpha,
                                 child: Padding(
                                   padding: const EdgeInsets.all(12),
@@ -273,12 +283,12 @@ const int ANIM_DURATION = 300;
 class TabItem extends StatelessWidget {
   TabItem(
       {@required this.uniqueKey,
-        @required this.selected,
-        @required this.imagePath,
-        @required this.title,
-        @required this.callbackFunction,
-        @required this.textColor,
-        @required this.iconColor});
+      @required this.selected,
+      @required this.imagePath,
+      @required this.title,
+      @required this.callbackFunction,
+      @required this.textColor,
+      @required this.iconColor});
 
   final UniqueKey uniqueKey;
   final String title;
@@ -326,16 +336,64 @@ class TabItem extends StatelessWidget {
                 duration: Duration(milliseconds: ANIM_DURATION),
                 opacity: (selected) ? ALPHA_OFF : ALPHA_ON,
                 child: IconButton(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
+                  highlightColor: Colors.orange, //transparent,
+                  splashColor: Colors. /*orange,*/ transparent,
                   padding: EdgeInsets.all(0),
                   alignment: Alignment(0, 0),
-                  icon: Image.asset(
-                    imagePath,
-                    color: iconColor,
-                    width: 30,
-                    height: 30,
-                  ),
+                  icon: imagePath == Images.notification
+                      ? Stack(clipBehavior: Clip.none, children: [
+                          Image.asset(
+                            imagePath,
+                            height: 30,
+                            width: 30,
+                            color: Colors.orange,
+                          ),
+                          // Provider.of<NotificationProvider>(context,
+                          //                 listen: false)
+                          //             .count !=
+                          //         0
+                          //     ? Positioned(
+                          //         top: -4,
+                          //         right: -4,
+                          //         child: CircleAvatar(
+                          //             radius: 7,
+                          //             backgroundColor: ColorResources.RED,
+                          //             child: Consumer<NotificationProvider>(
+                          //               builder: (context, value, child) {
+                          //                 return Text("${value.count}",
+                          //                     style: titilliumSemiBold.copyWith(
+                          //                       color: ColorResources.WHITE,
+                          //                       fontSize: Dimensions
+                          //                           .FONT_SIZE_EXTRA_SMALL,
+                          //                     ));
+                          //               },
+                          //             )),
+                          //       )
+                          //     : Container(),
+                          Positioned(
+                            top: -4,
+                            right: -4,
+                            child: CircleAvatar(
+                                radius: 7,
+                                backgroundColor: ColorResources.RED,
+                                child: Consumer<NotificationProvider>(
+                                  builder: (context, value, child) {
+                                    return Text("${value.count}",
+                                        style: titilliumSemiBold.copyWith(
+                                          color: ColorResources.WHITE,
+                                          fontSize:
+                                              Dimensions.FONT_SIZE_EXTRA_SMALL,
+                                        ));
+                                  },
+                                )),
+                          )
+                        ])
+                      : Image.asset(
+                          imagePath,
+                          height: 30,
+                          width: 30,
+                          color: Colors.orange,
+                        ),
                   onPressed: () {
                     callbackFunction(uniqueKey);
                   },

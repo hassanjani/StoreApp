@@ -68,19 +68,19 @@ class SellerScreen extends StatelessWidget {
                   child: Column(children: [
                     // Seller Info
                     Row(children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(40),
-                        child: FadeInImage.assetNetwork(
-                          placeholder: Images.placeholder,
-                          image:
-                              'https://alhafizcloth.com/100min/storage/app/public/resturant/'
-                              // '${Provider.of<SplashProvider>(context, listen: false).baseUrls.sellerImageUrl}'
-                              '/${seller.image}',
-                          height: 80,
-                          width: 80,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      // ClipRRect(
+                      //   borderRadius: BorderRadius.circular(40),
+                      //   child: FadeInImage.assetNetwork(
+                      //     placeholder: Images.placeholder,
+                      //     image:
+                      //         'https://alhafizcloth.com/100min/storage/app/public/shop/'
+                      //         // '${Provider.of<SplashProvider>(context, listen: false).baseUrls.sellerImageUrl}'
+                      //         '/${seller.image}',
+                      //     height: 80,
+                      //     width: 80,
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // ),
                       SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
                       Expanded(
                         child: Text(

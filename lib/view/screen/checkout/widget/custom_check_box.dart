@@ -35,3 +35,35 @@ class CustomCheckBox extends StatelessWidget {
     );
   }
 }
+
+class CustomCheckBox2 extends StatelessWidget {
+  final String title;
+  final int index;
+  CustomCheckBox2({@required this.title, @required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<OrderProvider>(
+      builder: (context, order, child) {
+        return InkWell(
+          onTap: () => order.setPaymentMethod(index),
+          child: Row(children: [
+            Checkbox(
+              value: order.paymentMethodIndex == index,
+              activeColor: Theme.of(context).primaryColor,
+              onChanged: (bool isChecked) => order.setPaymentMethod(index),
+            ),
+            Expanded(
+              child: Text(title,
+                  style: titilliumRegular.copyWith(
+                    color: order.paymentMethodIndex == index
+                        ? Theme.of(context).textTheme.bodyText1.color
+                        : ColorResources.getGainsBoro(context),
+                  )),
+            ),
+          ]),
+        );
+      },
+    );
+  }
+}

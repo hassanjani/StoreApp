@@ -8,11 +8,12 @@ String LATEST_PRODUCTS_URI =
 
 Location _locationTracker = Location();
 LocationData locationData;
-determinePosition() async {
+Future<String> determinePosition() async {
   locationData = await _locationTracker.getLocation();
   lat = locationData.latitude;
   lan = locationData.longitude;
   LATEST_PRODUCTS_URI = 'api/v1/products/latest/1/$lat/$lan?limit=10&&offset=';
   print(lat);
   print(lan);
+  return 'api/v1/products/latest/1/$lat/$lan?limit=10&&offset=';
 }

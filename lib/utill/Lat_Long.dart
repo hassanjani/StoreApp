@@ -9,11 +9,12 @@ String BRAND_PRODUCT_URI =
 
 Location _locationTracker = Location();
 LocationData locationData;
-determinePositionBrand() async {
+Future<String> determinePositionBrand() async {
   locationData = await _locationTracker.getLocation();
   lat = locationData.latitude;
   lan = locationData.longitude;
   BRAND_PRODUCT_URI = 'api/v1/brands/products/1/$lat/$lan/';
   print(lat);
   print(lan);
+  return 'api/v1/brands/products/1/$lat/$lan/';
 }

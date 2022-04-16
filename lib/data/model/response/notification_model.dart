@@ -1,4 +1,4 @@
-class NotificationModel {
+class NotificationDataModel {
   String id;
   String type;
   String notifiableType;
@@ -8,17 +8,17 @@ class NotificationModel {
   String createdAt;
   String updatedAt;
 
-  NotificationModel(
+  NotificationDataModel(
       {this.id,
-        this.type,
-        this.notifiableType,
-        this.notifiableId,
-        this.data,
-        this.readAt,
-        this.createdAt,
-        this.updatedAt});
+      this.type,
+      this.notifiableType,
+      this.notifiableId,
+      this.data,
+      this.readAt,
+      this.createdAt,
+      this.updatedAt});
 
-  NotificationModel.fromJson(Map<String, dynamic> json) {
+  NotificationDataModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     type = json['type'];
     notifiableType = json['notifiable_type'];
@@ -52,7 +52,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     letter =
-    json['letter'] != null ? new Letter.fromJson(json['letter']) : null;
+        json['letter'] != null ? new Letter.fromJson(json['letter']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -67,14 +67,14 @@ class Data {
 class Letter {
   String message;
   String shopId;
-  int orderId;
+  String orderId;
 
   Letter({this.message, this.shopId, this.orderId});
 
   Letter.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    shopId = json['shop_id'] == '1' ? "" : json['shop_id'] == '1';
-    orderId = json['order_id'];
+    shopId = json['shop_id'].toString();
+    orderId = json['order_id'].toString();
   }
 
   Map<String, dynamic> toJson() {

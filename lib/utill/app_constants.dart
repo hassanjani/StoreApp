@@ -68,6 +68,8 @@ class AppConstants {
   ////////////////////  T ///////////////////////////////////
   static const String TRACKING_URI = 'api/v1/order/track?order_id=';
   static const String TOKEN_URI = 'api/v1/customer/cm-firebase-token';
+  static const String UPDATELATLNG = 'api/v1/customer/update-lt-lg';
+  // static const String TOKEN_URI = 'customer/set-fcm-token';
   static const String UPDATE_PROFILE_URI = 'api/v1/customer/update-profile';
   static const String WISH_LIST_GET_URI = 'api/v1/customer/wish-list';
 

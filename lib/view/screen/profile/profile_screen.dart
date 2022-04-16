@@ -163,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             clipBehavior: Clip.none,
             children: [
               Image.asset(
-                Images.toolbar_background,
+                Images.orange,
                 fit: BoxFit.fill,
                 height: 500,
                 color: Provider.of<ThemeProvider>(context).darkTheme
@@ -277,8 +277,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Row(
                                         children: [
                                           Icon(Icons.person,
-                                              color: ColorResources
-                                                  .getLightSkyBlue(context),
+                                              color: ColorResources.getPrimary(
+                                                  context),
                                               size: 20),
                                           SizedBox(
                                               width: Dimensions
@@ -308,8 +308,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Row(
                                         children: [
                                           Icon(Icons.person,
-                                              color: ColorResources
-                                                  .getLightSkyBlue(context),
+                                              color: ColorResources.getPrimary(
+                                                  context),
                                               size: 20),
                                           SizedBox(
                                               width: Dimensions
@@ -346,7 +346,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Row(
                                     children: [
                                       Icon(Icons.alternate_email,
-                                          color: ColorResources.getLightSkyBlue(
+                                          color: ColorResources.getPrimary(
                                               context),
                                           size: 20),
                                       SizedBox(
@@ -381,7 +381,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Row(
                                     children: [
                                       Icon(Icons.dialpad,
-                                          color: ColorResources.getLightSkyBlue(
+                                          color: ColorResources.getPrimary(
                                               context),
                                           size: 20),
                                       SizedBox(

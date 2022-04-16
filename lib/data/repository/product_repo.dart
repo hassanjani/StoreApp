@@ -15,7 +15,10 @@ class ProductRepo {
     print("Ok 11");
     try {
       print("Ok 12");
-      final response = await dioClient.get(LATEST_PRODUCTS_URI + offset);
+      String puri = await determinePosition();
+      print("puri");
+      print(puri);
+      final response = await dioClient.get(puri + offset);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       print("Ok 13");
@@ -39,14 +42,15 @@ class ProductRepo {
   Future<ApiResponse> getBrandOrCategoryProductList(
       bool isBrand, String id) async {
     try {
-      String uri;
-      if (isBrand) {
-        uri = '${BRAND_PRODUCT_URI}$id';
-        // print(id);
-      } else {
-        uri = '${BRAND_PRODUCT_URI}$id';
-        print(id);
-      }
+      String uri = await determinePositionBrand();
+      uri = '${uri}$id';
+      // if (isBrand) {
+      //   uri = '${BRAND_PRODUCT_URI}$id';
+      //   // print(id);
+      // } else {
+      //   uri = '${BRAND_PRODUCT_URI}$id';
+      //   print(id);
+      // }
       final response = await dioClient.get(uri);
       return ApiResponse.withSuccess(response);
     } catch (e) {

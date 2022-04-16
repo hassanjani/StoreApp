@@ -8,6 +8,12 @@ class LoggingInterceptor extends InterceptorsWrapper {
       RequestOptions options, RequestInterceptorHandler handler) async {
     print("--> ${options.method} ${options.path}");
     print("Headers: ${options.headers.toString()}");
+    options.headers.forEach((key, value) {
+      print(key);
+      print(".........");
+      print(value);
+      print("...............................................");
+    });
     print("<-- END HTTP");
 
     return super.onRequest(options, handler);

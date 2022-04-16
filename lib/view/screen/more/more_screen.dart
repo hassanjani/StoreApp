@@ -44,7 +44,7 @@ class MoreScreen extends StatelessWidget {
           left: 0,
           right: 0,
           child: Image.asset(
-            Images.more_page_header,
+            Images.orange,
             height: 150,
             fit: BoxFit.fill,
             color: Provider.of<ThemeProvider>(context).darkTheme
@@ -61,8 +61,10 @@ class MoreScreen extends StatelessWidget {
           child: Consumer<ProfileProvider>(
             builder: (context, profile, child) {
               return Row(children: [
-                Image.asset(Images.logo_with_name_image,
-                    height: 35, color: ColorResources.WHITE),
+                Image.asset(
+                  Images.new_logo,
+                  height: 35, /*color: ColorResources.WHITE*/
+                ),
                 Expanded(child: SizedBox.shrink()),
                 InkWell(
                   onTap: () {
@@ -94,7 +96,7 @@ class MoreScreen extends StatelessWidget {
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child: FadeInImage.assetNetwork(
-                                  placeholder: Images.logo_image,
+                                  placeholder: Images.contact_us,
                                   width: 35,
                                   height: 35,
                                   fit: BoxFit.fill,
@@ -211,11 +213,13 @@ class MoreScreen extends StatelessWidget {
                   )),
 
               ListTile(
-                leading: Image.asset(Images.help_center,
-                    width: 25,
-                    height: 25,
-                    fit: BoxFit.fill,
-                    color: ColorResources.getPrimary(context)),
+                leading: Image.asset(
+                  Images.new_logo,
+                  width: 25,
+                  height: 25,
+                  fit:
+                      BoxFit.fill, /*color: ColorResources.getPrimary(context)*/
+                ),
                 title: Text(getTranslated('app_info', context),
                     style: titilliumRegular.copyWith(
                         fontSize: Dimensions.FONT_SIZE_LARGE)),
@@ -227,7 +231,9 @@ class MoreScreen extends StatelessWidget {
                   ? SizedBox()
                   : ListTile(
                       leading: Icon(Icons.exit_to_app,
-                          color: ColorResources.getPrimary(context), size: 25),
+                          color: Colors
+                              .orange /*ColorResources.getPrimary(context)*/,
+                          size: 25),
                       title: Text(getTranslated('sign_out', context),
                           style: titilliumRegular.copyWith(
                               fontSize: Dimensions.FONT_SIZE_LARGE)),
@@ -263,9 +269,9 @@ class SquareButton extends StatelessWidget {
           height: width / 4,
           padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: ColorResources.getPrimary(context),
-          ),
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.orange //ColorResources.getPrimary(context),
+              ),
           child: Image.asset(image, color: Theme.of(context).accentColor),
         ),
         Align(
@@ -291,7 +297,7 @@ class TitleButton extends StatelessWidget {
           width: 25,
           height: 25,
           fit: BoxFit.fill,
-          color: ColorResources.getPrimary(context)),
+          color: Colors.orange), //ColorResources.getPrimary(context)),
       title: Text(title,
           style:
               titilliumRegular.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE)),

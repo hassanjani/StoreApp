@@ -119,9 +119,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     if (isRoute) {
       await Provider.of<ProfileProvider>(context, listen: false)
           .getUserInfo(context);
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => AuthScreen(initialPage: 0)),
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => AuthScreen(
+                    initialPage: 1,
+                  )),
           (route) => false);
       _emailController.clear();
       _passwordController.clear();

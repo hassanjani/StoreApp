@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_app/data/datasource/remote/dio/logging_interceptor.dart';
 import 'package:user_app/utill/app_constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
   final String baseUrl;
@@ -96,6 +96,10 @@ class DioClient {
     ProgressCallback onReceiveProgress,
   }) async {
     try {
+      print("body data");
+      print(data);
+      print(options.toString());
+      print(data);
       var response = await dio.put(
         uri,
         data: data,

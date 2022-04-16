@@ -1,22 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:user_app/data/datasource/remote/dio/dio_client.dart';
+import 'package:user_app/data/model/response/order_model.dart';
 import 'package:user_app/helper/date_converter.dart';
-
 import 'package:user_app/localization/language_constrants.dart';
 import 'package:user_app/provider/notification_provider.dart';
 import 'package:user_app/provider/order_provider.dart';
-import 'package:user_app/provider/splash_provider.dart';
+import 'package:user_app/utill/app_constants.dart';
 import 'package:user_app/utill/color_resources.dart';
 import 'package:user_app/utill/custom_themes.dart';
 import 'package:user_app/utill/dimensions.dart';
-// import 'package:user_app/utill/diuser_appmensions.dart';
-import 'package:user_app/utill/images.dart';
 import 'package:user_app/view/basewidget/custom_app_bar.dart';
 import 'package:user_app/view/basewidget/no_internet_screen.dart';
-import 'package:user_app/view/screen/notification/widget/notification_dialog.dart';
-import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:intl/intl.dart';
+import 'package:user_app/view/screen/order/order_details_screen.dart';
 
 class NotificationScreen extends StatelessWidget {
   final bool isBacButtonExist;
@@ -30,8 +30,9 @@ class NotificationScreen extends StatelessWidget {
     return Scaffold(
       body: Column(children: [
         CustomAppBar(
-            title: getTranslated('notification', context),
-            isBackButtonExist: isBacButtonExist),
+          title: getTranslated(
+              'notification', context), /*isBackButtonExist: isBacButtonExist*/
+        ),
         Expanded(
           child: Consumer<NotificationProvider>(
             builder: (context, notification, child) {
@@ -53,9 +54,29 @@ class NotificationScreen extends StatelessWidget {
                                 vertical: Dimensions.PADDING_SIZE_SMALL),
                             itemBuilder: (context, index) {
                               return InkWell(
-                                onTap: () => Provider.of<OrderProvider>(context,
-                                        listen: false)
-                                    .setIndex(index),
+                                onTap: () {
+                                  String nid =
+                                      notification.notificationList[index].id;
+                                  String oid = notification
+                                      .notificationList[index]
+                                      .data
+                                      .letter
+                                      .orderId;
+
+                                  // final split1 = oid.split(',');
+                                  //
+                                  // final split2 = split1[0].split(':');
+                                  //
+                                  // print("mssgg");
+                                  // print(split2[1]);
+                                  // oid = split2[1].trim();
+
+                                  print("oid: " + oid);
+                                  getOrderModel(oid, nid, context);
+                                  Provider.of<OrderProvider>(context,
+                                          listen: false)
+                                      .setIndex(index);
+                                },
                                 child: Container(
                                   margin: EdgeInsets.only(
                                       bottom: Dimensions.PADDING_SIZE_SMALL),
@@ -72,7 +93,8 @@ class NotificationScreen extends StatelessWidget {
                                     // )),
                                     title: Text(
                                         notification.notificationList[index]
-                                            .data.letter.message,
+                                            .data.letter.message
+                                            .toString(),
                                         style: titilliumRegular.copyWith(
                                           fontSize: Dimensions.FONT_SIZE_SMALL,
                                         )),
@@ -101,6 +123,35 @@ class NotificationScreen extends StatelessWidget {
         ),
       ]),
     );
+  }
+
+  getOrderModel(String oid, String nid, BuildContext context) async {
+    int id = int.parse(oid);
+    DioClient dioClient;
+    final sl = GetIt.instance;
+    dioClient = sl();
+
+    final response = await dioClient.get(AppConstants.TRACKING_URI + oid);
+    OrderModel orderModel;
+    print(response.data.toString());
+    if (response != null && response.statusCode == 200) {
+      orderModel = OrderModel.fromJson(response.data);
+      print(orderModel.customerId);
+      print("nid: $nid");
+
+      final response1 =
+          await dioClient.get(AppConstants.NOTIFICATION_URI + "/$nid/unread");
+      print("read ");
+      print(response1.data.toString());
+      Provider.of<NotificationProvider>(context, listen: false).getCounts();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  OrderDetailsScreen(orderModel: orderModel, orderId: id)));
+    } else {
+      // ApiChecker.checkApi(context, apiResponse);
+    }
   }
 }
 

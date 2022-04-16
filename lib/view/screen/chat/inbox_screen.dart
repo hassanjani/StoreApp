@@ -45,7 +45,7 @@ class InboxScreen extends StatelessWidget {
                 bottomLeft: Radius.circular(5),
                 bottomRight: Radius.circular(5)),
             child: Image.asset(
-              Images.toolbar_background,
+              Images.orange,
               fit: BoxFit.fill,
               height: 90,
               width: double.infinity,

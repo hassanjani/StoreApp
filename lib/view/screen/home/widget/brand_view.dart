@@ -74,7 +74,7 @@ class BrandView extends StatelessWidget {
                                         .baseUrls
                                         .brandImageUrl +
                                     '/' +
-                                    // 'https://alhafizcloth.com/100min/storage/app/public/brand/restaurant/' +
+                                    // 'https://alhafizcloth.com/100min/storage/app/public/brand/store/' +
                                     brandProvider.brandList[index].image,
                               ),
                             ),

@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/notificationss.dart';
 import 'package:user_app/provider/auth_provider.dart';
 import 'package:user_app/provider/brand_provider.dart';
 import 'package:user_app/provider/cart_provider.dart';
@@ -39,10 +40,22 @@ import 'provider/product_provider.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
+/*Future<void> backgroundHandler(RemoteMessage message) async {
+  print(message.data.toString());
+  print(message.notification.title);
+}*/
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print(message.data.toString());
+  print(message.notification.title);
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+/*
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+*/
   await di.init();
   final NotificationAppLaunchDetails notificationAppLaunchDetails =
       await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
@@ -57,8 +70,8 @@ Future<void> main() async {
   Stripe.merchantIdentifier = 'any';
   await Stripe.instance.applySettings();
 
-  await MyNotification.initialize(flutterLocalNotificationsPlugin);
-  FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
+  /*await MyNotification.initialize(flutterLocalNotificationsPlugin);
+  FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);*/
 
   runApp(MultiProvider(
     providers: [
@@ -105,7 +118,7 @@ class MyApp extends StatelessWidget {
       _locals.add(Locale(language.languageCode, language.countryCode));
     });
     return MaterialApp(
-      title: '100MINS',
+      title: 'Store 100MINS',
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).darkTheme ? dark : light,
@@ -117,9 +130,9 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: _locals,
-      // home: orderId == null
-      //     ? DashBoardScreen()
-      //     : OrderDetailsScreen(orderModel: null, orderId: orderId),
+/*
+      home: Notificationss(),
+*/
       home: orderId == null
           ? SplashScreen()
           : OrderDetailsScreen(orderModel: null, orderId: orderId),

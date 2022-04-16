@@ -1,12 +1,16 @@
 class Images {
-  static const String splash_logo = 'assets/images/logo_splashe.png';
+  // static const String splash_logo = 'assets/images/logo_splash.png';
+  static const String splash_logo1 = 'assets/images/splash_logo.png';
+  static const String new_logo = 'assets/images/new_logo.png';
+  static const String app_logo = 'assets/images/hundlylogo.png';
   static const String more_filled_image = 'assets/images/more_filled.png';
   static const String cart_arrow_down_image =
       'assets/images/cart_arrow_down.png';
   static const String cart_image = 'assets/images/cart.png';
   static const String home_image = 'assets/images/home.png';
-  static const String logo_image = 'assets/images/logoo.png';
-  static const String logo_with_name_image = 'assets/images/logo_with_name.png';
+  // static const String logo_image = 'assets/images/logoo.png';
+  // static const String pro_logo = 'assets/images/pro_logo.png';
+  // static const String logo_with_name_image = 'assets/images/logo_with_name.png';
   static const String message_image = 'assets/images/message.png';
   static const String more_image = 'assets/images/more.png';
   static const String shopping_image = 'assets/images/shopping.png';
@@ -17,8 +21,8 @@ class Images {
   static const String filter_image = 'assets/images/filter.png';
   static const String fast_delivery = 'assets/images/fast_delivery.png';
   static const String delivery = 'assets/images/delivery.png';
-  static const String toolbar_background =
-      'assets/images/toolbar_background.jpg';
+  // static const String toolbar_background =
+  //     'assets/images/toolbar_background.jpg';
   static const String EDIT_TWO = 'assets/images/edit_2.png';
   static const String CHAT = 'assets/images/chat.png';
   static const String chats = 'assets/images/chats.png';
@@ -33,6 +37,7 @@ class Images {
   static const String settings = 'assets/images/settings.png';
   static const String wishlist = 'assets/images/wishlist.png';
   static const String more_page_header = 'assets/images/more_page_header.png';
+  static const String orange = 'assets/images/orang.png';
   static const String visa = 'assets/images/visa.png';
   static const String no_internet = 'assets/images/opps_internet.png';
   static const String mastercard = 'assets/images/mastercard.png';
