@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:user_app/data/model/response/product_model.dart';
 import 'package:user_app/helper/price_converter.dart';
 import 'package:user_app/localization/language_constrants.dart';
@@ -10,7 +11,6 @@ import 'package:user_app/utill/custom_themes.dart';
 import 'package:user_app/utill/dimensions.dart';
 import 'package:user_app/utill/images.dart';
 import 'package:user_app/view/screen/product/widget/cart_bottom_sheet.dart';
-import 'package:provider/provider.dart';
 
 class WishListWidget extends StatelessWidget {
   final Product product;

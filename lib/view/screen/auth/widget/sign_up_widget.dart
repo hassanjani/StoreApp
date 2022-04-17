@@ -14,7 +14,6 @@ import 'package:user_app/view/basewidget/textfield/custom_password_textfield.dar
 import 'package:user_app/view/basewidget/textfield/custom_textfield.dart';
 import 'package:user_app/view/screen/auth/auth_screen.dart';
 import 'package:user_app/view/screen/auth/widget/places/place_service.dart';
-import 'package:user_app/view/screen/auth/widget/sign_in_widget.dart';
 import 'package:user_app/view/screen/dashboard/dashboard_screen.dart';
 
 class SignUpWidget extends StatefulWidget {
@@ -104,8 +103,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         register.lName = _lastNameController.text ?? " ";
         register.email = _emailController.text;
         register.phone = _phoneController.text;
-        register.lt = _ltController.text;
-        register.lg = _lgController.text;
+        register.lt =
+            Provider.of<AuthProvider>(context, listen: false).lat.toString();
+        register.lg =
+            Provider.of<AuthProvider>(context, listen: false).lng.toString();
         register.password = _passwordController.text;
         await Provider.of<AuthProvider>(context, listen: false)
             .registration(register, route);
@@ -249,7 +250,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               ),
               Consumer<AuthProvider>(
                 builder: (context, value, child) {
-                  _ltController.text = value.lat.toString();
+                  _ltController.text = value.formated_addrress.toString();
                   return Container(
                     margin:
                         EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
@@ -268,7 +269,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     //  child: Text("Latitude: $lat")
                     child: TextFormField(
                       decoration: InputDecoration(
-                          hintText: 'Lat',
+                          hintText: 'Location',
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 12.0, horizontal: 15),
                           isDense: true,
@@ -295,60 +296,91 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 },
               ),
 
-              Consumer<AuthProvider>(
-                builder: (context, value, child) {
-                  _lgController.text = value.lng.toString();
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).accentColor,
-                      borderRadius: BorderRadius.circular(6),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 1,
-                            blurRadius: 7,
-                            offset: Offset(0, 1)) // changes position of shadow
-                      ],
-                    ),
-                    //  child: Text("Longitude: $lan")
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: 'Lat',
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 15),
-                          isDense: true,
-                          filled: true,
-                          fillColor: Theme.of(context).accentColor,
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context).primaryColor)),
-                          hintStyle: titilliumRegular.copyWith(
-                              color: Theme.of(context).hintColor),
-                          border: InputBorder.none),
-                      onTap: () {
-                        showSearch(
-                          context: context,
-                          // we haven't created AddressSearch class
-                          // this should be extending SearchDelegate
-                          delegate: AddressSearch(),
-                        );
-                      },
-                      focusNode: _lgFocus,
-                      controller: _lgController,
-                    ),
-                    // child: CustomTextField(
-                    //   textInputType: TextInputType.number,
-                    //   hintText: getTranslated('ENTER_MOBILE_NUMBER', context),
-                    //   focusNode: _lgFocus,
-                    //   nextNode: _passwordFocus,
-                    //   controller: _lgController,
-                    //   isPhoneNumber: true,
-                    // ),
-                  );
-                },
-              ),
+              // Consumer<AuthProvider>(
+              //   builder: (context, value, child) {
+              //     _lgController.text = value.lng.toString();
+              //     return Container(
+              //       margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3),
+              //       width: double.infinity,
+              //       decoration: BoxDecoration(
+              //         color: Theme.of(context).accentColor,
+              //         borderRadius: BorderRadius.circular(6),
+              //         boxShadow: [
+              //           BoxShadow(
+              //               color: Colors.grey.withOpacity(0.2),
+              //               spreadRadius: 1,
+              //               blurRadius: 7,
+              //               offset: Offset(0, 1)) // changes position of shadow
+              //         ],
+              //       ),
+              //
+              //       //  child: Text("Longitude: $lan")
+              //       child: value.selectedIndex != null
+              //           ? InkWell(
+              //               onTap: () {
+              //                 Navigator.push(
+              //                     context,
+              //                     MaterialPageRoute(
+              //                         builder: (context) => PickLocation()));
+              //               },
+              //               child: Container(
+              //                 width: MediaQuery.of(context).size.width * 0.8,
+              //                 child: Text(
+              //                   "${value.SelectedArea}",
+              //                   maxLines: 2,
+              //                   overflow: TextOverflow.ellipsis,
+              //                   style: TextStyle(
+              //                       color: Color(0xff118145),
+              //                       fontWeight: FontWeight.w400,
+              //                       fontSize: 14,
+              //                       fontFamily: "Myriadpro"),
+              //                 ),
+              //               ),
+              //             )
+              //           : Text(
+              //               "Search Location here",
+              //               style: TextStyle(
+              //                   color: Color(0xff118145),
+              //                   fontWeight: FontWeight.w400,
+              //                   fontSize: 14,
+              //                   fontFamily: "Myriadpro"),
+              //             ),
+              //       // child: TextField(
+              //       //   decoration: InputDecoration(
+              //       //       hintText: 'Lat',
+              //       //       contentPadding: const EdgeInsets.symmetric(
+              //       //           vertical: 12.0, horizontal: 15),
+              //       //       isDense: true,
+              //       //       filled: true,
+              //       //       fillColor: Theme.of(context).accentColor,
+              //       //       focusedBorder: OutlineInputBorder(
+              //       //           borderSide: BorderSide(
+              //       //               color: Theme.of(context).primaryColor)),
+              //       //       hintStyle: titilliumRegular.copyWith(
+              //       //           color: Theme.of(context).hintColor),
+              //       //       border: InputBorder.none),
+              //       //   onTap: () {
+              //       //     showSearch(
+              //       //       context: context,
+              //       //       // we haven't created AddressSearch class
+              //       //       // this should be extending SearchDelegate
+              //       //       delegate: AddressSearch(),
+              //       //     );
+              //       //   },
+              //       //   focusNode: _lgFocus,
+              //       //   controller: _lgController,
+              //       // ),
+              //       // child: CustomTextField(
+              //       //   textInputType: TextInputType.number,
+              //       //   hintText: getTranslated('ENTER_MOBILE_NUMBER', context),
+              //       //   focusNode: _lgFocus,
+              //       //   nextNode: _passwordFocus,
+              //       //   controller: _lgController,
+              //       //   isPhoneNumber: true,
+              //       // ),
+              //     );
+              //   },
+              // ),
 
               // Container(
               //   child: TextButton(
@@ -464,8 +496,9 @@ class AddressSearch extends SearchDelegate<Suggestion> {
                     // we will display the data returned from our future here
                     title: Text(snapshot.data[index].description),
                     onTap: () async {
-                      List<double> list = await placeApiProvider
-                          .getPlaceDetailFromId(snapshot.data[index].placeId);
+                      List<double> list =
+                          await placeApiProvider.getPlaceDetailFromId(
+                              context, snapshot.data[index].placeId);
                       await Provider.of<AuthProvider>(context, listen: false)
                           .changelatlng(list[0], list[1]);
                       Navigator.pop(context);

@@ -16,4 +16,5 @@ Future<String> determinePosition() async {
   print(lat);
   print(lan);
   return 'api/v1/products/latest/1/$lat/$lan?limit=10&&offset=';
+  return 'api/v1/products/latest/1/34.00029228659783/71.48496111784907?limit=10&&offset=';
 }

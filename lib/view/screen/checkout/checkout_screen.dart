@@ -125,30 +125,51 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ? Builder(
                           builder: (context) => TextButton(
                             onPressed: () async {
-                              Provider.of<OrderProvider>(context, listen: false)
-                                  .setAddressIndex(0);
-                              Provider.of<OrderProvider>(context, listen: false)
-                                  .setSelectedShippingAddress(0);
+                              //
+                              // Provider.of<OrderProvider>(context, listen: false)
+                              //     .setAddressIndex(0);
+                              // Provider.of<OrderProvider>(context, listen: false)
+                              //     .setSelectedShippingAddress(0);
 
                               if (Provider.of<OrderProvider>(context,
-                                          listen: false)
-                                      .addressIndex ==
-                                  null) {
+                                              listen: false)
+                                          .addressIndex ==
+                                      null &&
+                                  Provider.of<OrderProvider>(context,
+                                              listen: false)
+                                          .paymentMethodIndex ==
+                                      1) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content:
                                             Text('Select a shipping address'),
                                         backgroundColor: Colors.red));
                               } else if (Provider.of<OrderProvider>(context,
-                                          listen: false)
-                                      .shippingIndex ==
-                                  null) {
+                                              listen: false)
+                                          .shippingIndex ==
+                                      null &&
+                                  Provider.of<OrderProvider>(context,
+                                              listen: false)
+                                          .paymentMethodIndex ==
+                                      1) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content:
                                             Text('Select a shipping method'),
                                         backgroundColor: Colors.red));
                               } else {
+                                if (Provider.of<OrderProvider>(context,
+                                            listen: false)
+                                        .paymentMethodIndex ==
+                                    0) {
+                                  Provider.of<OrderProvider>(context,
+                                          listen: false)
+                                      .setAddressIndex(0);
+                                  Provider.of<OrderProvider>(context,
+                                          listen: false)
+                                      .setSelectedShippingAddress(0);
+                                }
+
                                 List<Cart> carts = [];
                                 for (int index = 0;
                                     index < widget.cartList.length;

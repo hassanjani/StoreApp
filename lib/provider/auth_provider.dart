@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:user_app/data/datasource/remote/dio/dio_client.dart';
 import 'package:user_app/data/model/body/login_model.dart';
@@ -211,5 +212,46 @@ class AuthProvider with ChangeNotifier {
     print(fcmToken);
 
     return fcmToken;
+  }
+
+  String formated_addrress = "";
+  String SelectedArea = "";
+  LatLng currentsearchArea_latLng =
+      LatLng(33.654172877333046, 73.03606706934552);
+
+  // PickResult? selectedPlace;
+  //
+  onchangeAddres(String value) {
+    formated_addrress = value;
+    notifyListeners();
+  }
+
+  LatLng ilatLng = LatLng(33.654172877333046, 73.03606706934552);
+
+  CameraPosition initialLocation = CameraPosition(
+    bearing: 0,
+    target: LatLng(33.654172877333046, 73.03606706934552),
+    zoom: 16.4746,
+  );
+
+  changeCamera(LatLng latLng) {
+    ilatLng = latLng;
+    initialLocation = CameraPosition(
+      bearing: 0,
+      target: latLng,
+      zoom: 16.4746,
+    );
+    notifyListeners();
+  }
+
+  onchangeArea(String value) {
+    SelectedArea = value;
+    notifyListeners();
+  }
+
+  onchangeAreaLatlng(LatLng value) {
+    currentsearchArea_latLng = value;
+    ilatLng = value;
+    notifyListeners();
   }
 }

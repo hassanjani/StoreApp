@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
+import 'package:user_app/provider/auth_provider.dart';
 
 // For storing our result
 class Suggestion {
@@ -49,7 +52,8 @@ class PlaceApiProvider {
     }
   }
 
-  Future<List<double>> getPlaceDetailFromId(String placeId) async {
+  Future<List<double>> getPlaceDetailFromId(
+      BuildContext context, String placeId) async {
     print("placeId");
     print(placeId);
     final request =
@@ -59,14 +63,17 @@ class PlaceApiProvider {
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       if (result['status'] == 'OK') {
-        // print(response.body.toString());
+        print(response.body.toString());
         print(result['result']['geometry']);
+        print(result['result']['name']);
         print(result['result']['geometry']['location']);
         print(result['result']['geometry']['location']['lat']);
         print(result['result']['geometry']['location']['lng']);
         List<double> list = [];
         list.add(result['result']['geometry']['location']['lat']);
         list.add(result['result']['geometry']['location']['lng']);
+        Provider.of<AuthProvider>(context, listen: false)
+            .onchangeAddres(result['result']['name']);
         // compose suggestions in a list
         // return result['predictions']
         //     .map<Suggestion>((p) => Suggestion(p['place_id'], p['description']))

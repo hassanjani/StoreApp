@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_app/data/model/response/base/api_response.dart';
 import 'package:user_app/data/model/response/product_model.dart';
 import 'package:user_app/data/repository/product_repo.dart';
 import 'package:user_app/helper/api_checker.dart';
+import 'package:user_app/utill/app_constants.dart';
 
 class ProductProvider extends ChangeNotifier {
   final ProductRepo productRepo;
@@ -20,25 +22,41 @@ class ProductProvider extends ChangeNotifier {
   bool get firstLoading => _firstLoading;
   int get latestPageSize => _latestPageSize;
 
-  Future<void> getLatestProductList(String offset, BuildContext context, {bool reload = false}) async {
-    if(reload) {
+  bool logincheck = false;
+  getShared() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String token = await sharedPreferences.getString(AppConstants.TOKEN);
+    if (token != null) {
+      logincheck = true;
+    } else {
+      logincheck = false;
+    }
+    notifyListeners();
+  }
+
+  Future<void> getLatestProductList(String offset, BuildContext context,
+      {bool reload = false}) async {
+    if (reload) {
       _offsetList = [];
       _latestProductList = [];
     }
-    if(!_offsetList.contains(offset)) {
+    if (!_offsetList.contains(offset)) {
       _offsetList.add(offset);
       ApiResponse apiResponse = await productRepo.getLatestProductList(offset);
-      if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
-        _latestProductList.addAll(ProductModel.fromJson(apiResponse.response.data).products);
-        _latestPageSize = ProductModel.fromJson(apiResponse.response.data).totalSize;
+      if (apiResponse.response != null &&
+          apiResponse.response.statusCode == 200) {
+        _latestProductList
+            .addAll(ProductModel.fromJson(apiResponse.response.data).products);
+        _latestPageSize =
+            ProductModel.fromJson(apiResponse.response.data).totalSize;
         _firstLoading = false;
         _isLoading = false;
       } else {
         ApiChecker.checkApi(context, apiResponse);
       }
       notifyListeners();
-    }else {
-      if(_isLoading) {
+    } else {
+      if (_isLoading) {
         _isLoading = false;
         notifyListeners();
       }
@@ -67,12 +85,18 @@ class ProductProvider extends ChangeNotifier {
   List<Product> get sellerProductList => _sellerProductList;
   int get sellerPageSize => _sellerPageSize;
 
-  void initSellerProductList(String sellerId, String offset, BuildContext context) async {
-    ApiResponse apiResponse = await productRepo.getSellerProductList(sellerId, offset);
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
-      _sellerProductList.addAll(ProductModel.fromJson(apiResponse.response.data).products);
-      _sellerAllProductList.addAll(ProductModel.fromJson(apiResponse.response.data).products);
-      _sellerPageSize = ProductModel.fromJson(apiResponse.response.data).totalSize;
+  void initSellerProductList(
+      String sellerId, String offset, BuildContext context) async {
+    ApiResponse apiResponse =
+        await productRepo.getSellerProductList(sellerId, offset);
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
+      _sellerProductList
+          .addAll(ProductModel.fromJson(apiResponse.response.data).products);
+      _sellerAllProductList
+          .addAll(ProductModel.fromJson(apiResponse.response.data).products);
+      _sellerPageSize =
+          ProductModel.fromJson(apiResponse.response.data).totalSize;
       _firstLoading = false;
       _isLoading = false;
     } else {
@@ -83,13 +107,13 @@ class ProductProvider extends ChangeNotifier {
 
   void filterData(String newText) {
     _sellerProductList.clear();
-    if(newText.isNotEmpty) {
+    if (newText.isNotEmpty) {
       _sellerAllProductList.forEach((product) {
         if (product.name.toLowerCase().contains(newText.toLowerCase())) {
           _sellerProductList.add(product);
         }
       });
-    }else {
+    } else {
       _sellerProductList.clear();
       _sellerProductList.addAll(_sellerAllProductList);
     }
@@ -108,12 +132,16 @@ class ProductProvider extends ChangeNotifier {
   List<Product> get brandOrCategoryProductList => _brandOrCategoryProductList;
   bool get hasData => _hasData;
 
-  void initBrandOrCategoryProductList(bool isBrand, String id, BuildContext context) async {
+  void initBrandOrCategoryProductList(
+      bool isBrand, String id, BuildContext context) async {
     _brandOrCategoryProductList.clear();
     _hasData = true;
-    ApiResponse apiResponse = await productRepo.getBrandOrCategoryProductList(isBrand, id);
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
-      apiResponse.response.data.forEach((product) => _brandOrCategoryProductList.add(Product.fromJson(product)));
+    ApiResponse apiResponse =
+        await productRepo.getBrandOrCategoryProductList(isBrand, id);
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
+      apiResponse.response.data.forEach((product) =>
+          _brandOrCategoryProductList.add(Product.fromJson(product)));
       _hasData = _brandOrCategoryProductList.length > 1;
       List<Product> _products = [];
       _products.addAll(_brandOrCategoryProductList);
@@ -131,9 +159,11 @@ class ProductProvider extends ChangeNotifier {
 
   void initRelatedProductList(String id, BuildContext context) async {
     ApiResponse apiResponse = await productRepo.getRelatedProductList(id);
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _relatedProductList = [];
-      apiResponse.response.data.forEach((product) => _relatedProductList.add(Product.fromJson(product)));
+      apiResponse.response.data.forEach(
+          (product) => _relatedProductList.add(Product.fromJson(product)));
     } else {
       ApiChecker.checkApi(context, apiResponse);
     }

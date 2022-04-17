@@ -43,6 +43,9 @@ dependencies:
   location: any
   flutter_stripe: ^2.1.1
   uuid: ^3.0.5
+  geolocator:
+  google_maps_flutter:
+
 #  place_picker: ^0.9.19
 #  google_maps_place_picker: any
 

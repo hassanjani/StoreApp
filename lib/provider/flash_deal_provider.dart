@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:user_app/data/model/response/base/api_response.dart';
 import 'package:user_app/data/model/response/flash_deal_model.dart';
 import 'package:user_app/data/model/response/product_model.dart';
 import 'package:user_app/data/repository/flash_deal_repo.dart';
 import 'package:user_app/helper/api_checker.dart';
-import 'package:intl/intl.dart';
 
 class FlashDealProvider extends ChangeNotifier {
   final FlashDealRepo megaDealRepo;

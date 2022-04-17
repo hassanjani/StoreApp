@@ -1,8 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import 'package:user_app/data/model/response/product_model.dart';
 import 'package:user_app/helper/price_converter.dart';
+import 'package:user_app/provider/auth_provider.dart';
 import 'package:user_app/provider/splash_provider.dart';
 import 'package:user_app/provider/theme_provider.dart';
 import 'package:user_app/utill/color_resources.dart';
@@ -10,11 +11,11 @@ import 'package:user_app/utill/custom_themes.dart';
 import 'package:user_app/utill/dimensions.dart';
 import 'package:user_app/utill/images.dart';
 import 'package:user_app/view/screen/product/product_details_screen.dart';
-import 'package:provider/provider.dart';
 
 class ProductWidget extends StatelessWidget {
   final Product productModel;
-  ProductWidget({@required this.productModel});
+  final bool loginCheck;
+  ProductWidget({@required this.productModel, this.loginCheck});
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +116,22 @@ class ProductWidget extends StatelessWidget {
                           ),
                         )
                       : SizedBox.shrink(),
+                  loginCheck
+                      ? FutureBuilder<double>(
+                          future: calculateDistance(
+                              context,
+                              double.parse(productModel.shop.lt),
+                              double.parse(productModel.shop.lg)),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(
+                                  "distance from you: ${snapshot.data}km");
+                            } else {
+                              return Text("");
+                            }
+                          },
+                        )
+                      : Text(""),
                 ],
               ),
             ),
@@ -153,5 +170,18 @@ class ProductWidget extends StatelessWidget {
         ]),
       ),
     );
+  }
+
+  Future<double> calculateDistance(
+      BuildContext context, double lat2, double lon2) async {
+    double lat1 = Provider.of<AuthProvider>(context, listen: false).lat;
+    double lon1 = Provider.of<AuthProvider>(context, listen: false).lng;
+    double distanceInMeters =
+        await Geolocator.distanceBetween(lat1, lon1, lat2, lon2);
+    double distanceInKiloMeters = distanceInMeters / 1000;
+    double DistanceInKM =
+        double.parse((distanceInKiloMeters).toStringAsFixed(2));
+    print("$distanceInMeters");
+    return DistanceInKM;
   }
 }

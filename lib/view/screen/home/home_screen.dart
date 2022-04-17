@@ -1,7 +1,10 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:user_app/helper/product_type.dart';
 import 'package:user_app/localization/language_constrants.dart';
+import 'package:user_app/provider/auth_provider.dart';
 import 'package:user_app/provider/banner_provider.dart';
 import 'package:user_app/provider/brand_provider.dart';
 import 'package:user_app/provider/cart_provider.dart';
@@ -17,15 +20,13 @@ import 'package:user_app/view/basewidget/title_row.dart';
 import 'package:user_app/view/screen/brand/all_brand_screen.dart';
 import 'package:user_app/view/screen/cart/cart_screen.dart';
 import 'package:user_app/view/screen/category/all_category_screen.dart';
+import 'package:user_app/view/screen/flashdeal/flash_deal_screen.dart';
 import 'package:user_app/view/screen/home/widget/banners_view.dart';
 import 'package:user_app/view/screen/home/widget/brand_view.dart';
 import 'package:user_app/view/screen/home/widget/category_view.dart';
 import 'package:user_app/view/screen/home/widget/flash_deals_view.dart';
 import 'package:user_app/view/screen/home/widget/products_view.dart';
-import 'package:user_app/view/screen/flashdeal/flash_deal_screen.dart';
 import 'package:user_app/view/screen/search/search_screen.dart';
-import 'package:provider/provider.dart';
-import 'dart:ui';
 
 class HomePage extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
@@ -45,6 +46,8 @@ class HomePage extends StatelessWidget {
         .getBrandList(reload, context);
     await Provider.of<ProductProvider>(context, listen: false)
         .getLatestProductList('1', context, reload: reload);
+    await Provider.of<ProductProvider>(context, listen: false).getShared();
+    await Provider.of<AuthProvider>(context, listen: false).getLocation();
   }
 
   @override
@@ -285,8 +288,9 @@ class HomePage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: Dimensions.PADDING_SIZE_SMALL),
                       child: ProductView(
-                          productType: ProductType.LATEST_PRODUCT,
-                          scrollController: _scrollController),
+                        productType: ProductType.LATEST_PRODUCT,
+                        scrollController: _scrollController,
+                      ),
                     ),
                   ],
                 ),

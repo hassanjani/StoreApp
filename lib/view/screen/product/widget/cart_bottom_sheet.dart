@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:user_app/data/model/response/cart_model.dart';
 import 'package:user_app/data/model/response/product_model.dart';
 import 'package:user_app/helper/price_converter.dart';
@@ -14,7 +15,6 @@ import 'package:user_app/utill/dimensions.dart';
 import 'package:user_app/utill/images.dart';
 import 'package:user_app/view/basewidget/button/custom_button.dart';
 import 'package:user_app/view/screen/checkout/checkout_screen.dart';
-import 'package:provider/provider.dart';
 
 class CartBottomSheet extends StatelessWidget {
   final Product product;
