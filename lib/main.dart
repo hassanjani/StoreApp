@@ -5,7 +5,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
-import 'package:user_app/notificationss.dart';
+import 'package:user_app/notification/PushNotifications.dart';
+import 'package:user_app/notification/my_notification.dart';
 import 'package:user_app/provider/auth_provider.dart';
 import 'package:user_app/provider/brand_provider.dart';
 import 'package:user_app/provider/cart_provider.dart';
@@ -26,13 +27,11 @@ import 'package:user_app/provider/wishlist_provider.dart';
 import 'package:user_app/theme/dark_theme.dart';
 import 'package:user_app/theme/light_theme.dart';
 import 'package:user_app/utill/app_constants.dart';
-import 'package:user_app/view/screen/dashboard/dashboard_screen.dart';
 import 'package:user_app/view/screen/order/order_details_screen.dart';
 import 'package:user_app/view/screen/splash/splash_screen.dart';
 
 import 'di_container.dart' as di;
 import 'localization/app_localization.dart';
-import 'notification/my_notification.dart';
 import 'provider/banner_provider.dart';
 import 'provider/flash_deal_provider.dart';
 import 'provider/product_details_provider.dart';
@@ -52,7 +51,9 @@ Future<void> backgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  PushNotificationService(firebaseMessaging).initialise();
 /*
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 */
@@ -65,6 +66,10 @@ Future<void> main() async {
         ? int.parse(notificationAppLaunchDetails.payload)
         : null;
   }
+
+  await MyNotification.initialize(flutterLocalNotificationsPlugin);
+  FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
+
   Stripe.publishableKey =
       "pk_test_51JT7jkCTAUDjRNFVfafy4Gskx1KzUNk8nPj8T51zzCPE18fA17DOFO6MqSZVTCxhVCSWGwouDSe0yjcObAznHLW600VBoGyDcg";
   Stripe.merchantIdentifier = 'any';

@@ -158,17 +158,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             Text('Select a shipping method'),
                                         backgroundColor: Colors.red));
                               } else {
-                                if (Provider.of<OrderProvider>(context,
-                                            listen: false)
-                                        .paymentMethodIndex ==
-                                    0) {
-                                  Provider.of<OrderProvider>(context,
-                                          listen: false)
-                                      .setAddressIndex(0);
-                                  Provider.of<OrderProvider>(context,
-                                          listen: false)
-                                      .setSelectedShippingAddress(0);
-                                }
+                                // if (Provider.of<OrderProvider>(context,
+                                //             listen: false)
+                                //         .paymentMethodIndex ==
+                                //     0) {
+                                //   Provider.of<OrderProvider>(context,
+                                //           listen: false)
+                                //       .setAddressIndex(0);
+                                //   Provider.of<OrderProvider>(context,
+                                //           listen: false)
+                                //       .setSelectedShippingAddress(0);
+                                // }
 
                                 List<Cart> carts = [];
                                 for (int index = 0;
@@ -185,14 +185,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         cart.discount, cart.discountType, 1),
                                     'amount',
                                     index == 0
-                                        ? Provider.of<OrderProvider>(context,
-                                                listen: false)
-                                            .shippingList[
-                                                Provider.of<OrderProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .shippingIndex]
-                                            .id
+                                        ? 1
+                                        // Provider.of<OrderProvider>(context,
+                                        //             listen: false)
+                                        //         .shippingList[
+                                        //             Provider.of<OrderProvider>(
+                                        //                     context,
+                                        //                     listen: false)
+                                        //                 .shippingIndex]
+                                        //         .id
                                         : 1,
                                     cart.variant,
                                     cart.variation != null
@@ -214,27 +215,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         listen: false)
                                     .placeOrder(
                                         OrderPlaceModel(
-                                          CustomerInfo(
-                                            Provider.of<ProfileProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .addressList[
-                                                    Provider.of<OrderProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .addressIndex]
-                                                .id
-                                                .toString(),
-                                            Provider.of<ProfileProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .addressList[
-                                                    Provider.of<OrderProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .addressIndex]
-                                                .address,
-                                          ),
+                                          Provider.of<OrderProvider>(context,
+                                                          listen: false)
+                                                      .paymentMethodIndex ==
+                                                  1
+                                              ? CustomerInfo(
+                                                  Provider.of<ProfileProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .addressList[Provider.of<
+                                                                  OrderProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .addressIndex]
+                                                      .id
+                                                      .toString(),
+                                                  Provider.of<ProfileProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .addressList[Provider.of<
+                                                                  OrderProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .addressIndex]
+                                                      .address,
+                                                )
+                                              : CustomerInfo(null, null),
                                           carts,
                                           order.paymentMethodIndex == 0
                                               ? 'cash'
@@ -680,13 +686,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         // print(a);
         // var b = jsonDecode(a);
         // print(b);
-        final split1 = orderID.split(',');
-
-        final split2 = split1[0].split(':');
-
-        print("mssgg");
-        print(split2[1]);
-        orderID = split2[1].trim();
+        // final split1 = orderID.split(',');
+        //
+        // final split2 = split1[0].split(':');
+        //
+        // print("mssgg");
+        // print(split2[1]);
+        // orderID = split2[1].trim();
 
         Navigator.pushReplacement(
             context,
