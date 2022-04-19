@@ -82,8 +82,10 @@ class OrderProvider with ChangeNotifier {
     if (apiResponse.response != null &&
         apiResponse.response.statusCode == 200) {
       _orderDetails = [];
-      apiResponse.response.data.forEach(
-          (order) => _orderDetails.add(OrderDetailsModel.fromJson(order)));
+      _orderDetails
+          .add(OrderDetailsModel.fromJson(apiResponse.response.data[0]));
+      // apiResponse.response.data.forEach(
+      //     (order) => _orderDetails.add(OrderDetailsModel.fromJson(order)));
     } else {
       ApiChecker.checkApi(context, apiResponse);
     }

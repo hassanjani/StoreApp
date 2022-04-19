@@ -1,11 +1,11 @@
-import 'package:user_app/data/model/response/product_model.dart';
+import 'base/product_model1.dart';
 
 class OrderDetailsModel {
   int _id;
   int _orderId;
   int _productId;
   int _sellerId;
-  Product _productDetails;
+  Product1 _productDetails;
   int _qty;
   double _price;
   double _tax;
@@ -21,7 +21,7 @@ class OrderDetailsModel {
       int orderId,
       int productId,
       int sellerId,
-      Product productDetails,
+      Product1 productDetails,
       int qty,
       double price,
       double tax,
@@ -55,7 +55,7 @@ class OrderDetailsModel {
 
   int get sellerId => _sellerId;
 
-  Product get productDetails => _productDetails;
+  Product1 get productDetails => _productDetails;
 
   int get qty => _qty;
 
@@ -81,7 +81,7 @@ class OrderDetailsModel {
     _productId = json['product_id'];
     _sellerId = json['seller_id'];
     if (json['product_details'] != null) {
-      _productDetails = Product.fromJson(json['product_details']);
+      _productDetails = Product1.fromJson(json['product_details']);
     }
     _qty = json['qty'];
     _price = json['price'].toDouble();

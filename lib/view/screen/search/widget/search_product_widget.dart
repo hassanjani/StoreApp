@@ -70,7 +70,10 @@ class SearchProductWidget extends StatelessWidget {
               //shrinkWrap: true,
               staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
               itemBuilder: (BuildContext context, int index) {
-                return ProductWidget(productModel: products[index]);
+                return ProductWidget(
+                  productModel: products[index],
+                  loginCheck: true,
+                );
               },
             ),
           ),

@@ -1,12 +1,11 @@
-import 'package:meta/meta.dart';
-
-class ProductModel {
+class ProductModel1 {
   int _totalSize;
   int _limit;
   int _offset;
-  List<Product> _products;
+  List<Product1> _products;
 
-  ProductModel({int totalSize, int limit, int offset, List<Product> products}) {
+  ProductModel1(
+      {int totalSize, int limit, int offset, List<Product1> products}) {
     this._totalSize = totalSize;
     this._limit = limit;
     this._offset = offset;
@@ -19,16 +18,16 @@ class ProductModel {
 
   int get offset => _offset;
 
-  List<Product> get products => _products;
+  List<Product1> get products => _products;
 
-  ProductModel.fromJson(Map<String, dynamic> json) {
+  ProductModel1.fromJson(Map<String, dynamic> json) {
     _totalSize = json['total_size'];
     _limit = json['limit'];
     _offset = json['offset'];
     if (json['products'] != null) {
       _products = [];
       json['products'].forEach((v) {
-        _products.add(new Product.fromJson(v));
+        _products.add(new Product1.fromJson(v));
       });
     }
   }
@@ -45,7 +44,7 @@ class ProductModel {
   }
 }
 
-class Product {
+class Product1 {
   int _id;
   String _addedBy;
   int _userId;
@@ -82,7 +81,6 @@ class Product {
   int _status;
   int _featuredStatus;
   List<Rating> _rating;
-  Shop _shop;
 
   Product(
       {int id,
@@ -121,8 +119,7 @@ class Product {
       String updatedAt,
       int status,
       int featuredStatus,
-      List<Rating> rating,
-      Shop shop}) {
+      List<Rating> rating}) {
     this._id = id;
     this._addedBy = addedBy;
     this._userId = userId;
@@ -159,7 +156,6 @@ class Product {
     this._status = status;
     this._featuredStatus = featuredStatus;
     this._rating = rating;
-    this._shop = shop;
   }
 
   int get id => _id;
@@ -229,13 +225,12 @@ class Product {
   String get updatedAt => _updatedAt;
 
   int get status => _status;
-  Shop get shop => _shop;
 
   int get featuredStatus => _featuredStatus;
 
   List<Rating> get rating => _rating;
 
-  Product.fromJson(Map<String, dynamic> json) {
+  Product1.fromJson(Map<String, dynamic> json) {
     _id = json['id'];
     _addedBy = json['added_by'];
     _userId = json['user_id'];
@@ -299,7 +294,6 @@ class Product {
         _rating.add(new Rating.fromJson(v));
       });
     }
-    _shop = json["shop"] != null ? Shop.fromMap(json["shop"]) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -348,8 +342,6 @@ class Product {
     data['updated_at'] = this._updatedAt;
     data['status'] = this._status;
     data['featured_status'] = this._featuredStatus;
-    data['shop'] = this._shop;
-
     if (this._rating != null) {
       data['rating'] = this._rating.map((v) => v.toJson()).toList();
     }
@@ -497,60 +489,4 @@ class Rating {
     data['product_id'] = this._productId;
     return data;
   }
-}
-
-class Shop {
-  Shop({
-    @required this.id,
-    @required this.sellerId,
-    @required this.category,
-    @required this.name,
-    @required this.address,
-    @required this.contact,
-    @required this.image,
-    @required this.lt,
-    @required this.lg,
-    @required this.createdAt,
-    @required this.updatedAt,
-  });
-
-  int id;
-  int sellerId;
-  String category;
-  String name;
-  String address;
-  String contact;
-  String image;
-  String lt;
-  String lg;
-  DateTime createdAt;
-  DateTime updatedAt;
-
-  factory Shop.fromMap(Map<String, dynamic> json) => Shop(
-        id: json["id"],
-        sellerId: int.parse(json["seller_id"]),
-        category: json["category"],
-        name: json["name"],
-        address: json["address"],
-        contact: json["contact"],
-        image: json["image"],
-        lt: json["lt"],
-        lg: json["lg"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-      );
-
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "seller_id": sellerId,
-        "category": category,
-        "name": name,
-        "address": address,
-        "contact": contact,
-        "image": image,
-        "lt": lt,
-        "lg": lg,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-      };
 }

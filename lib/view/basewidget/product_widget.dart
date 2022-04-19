@@ -117,20 +117,22 @@ class ProductWidget extends StatelessWidget {
                         )
                       : SizedBox.shrink(),
                   loginCheck
-                      ? FutureBuilder<double>(
-                          future: calculateDistance(
-                              context,
-                              double.parse(productModel.shop.lt),
-                              double.parse(productModel.shop.lg)),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Text(
-                                  "distance from you: ${snapshot.data}km");
-                            } else {
-                              return Text("");
-                            }
-                          },
-                        )
+                      ? productModel.shop != null
+                          ? FutureBuilder<double>(
+                              future: calculateDistance(
+                                  context,
+                                  double.parse(productModel.shop.lt),
+                                  double.parse(productModel.shop.lg)),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(
+                                      "distance from you: ${snapshot.data}km");
+                                } else {
+                                  return Text("");
+                                }
+                              },
+                            )
+                          : Text("")
                       : Text(""),
                 ],
               ),
